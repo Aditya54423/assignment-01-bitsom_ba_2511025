@@ -1,9 +1,12 @@
 ## Vector DB Use Case
 
-A traditional keyword based search would not be sufficient for the given use case.Legal contracts are written in highly formal and varied language,where the same concept can be expressed in multiple ways.For ex:- "a termination clause" might appear as conditions under which the agreement may be dissolved or "grounds for cessation of obligations".A keyword search general relies on exact or partial word matches so it would likely miss relevant sections if the wording differs from the user's query which inturn makes it unreliable for long,complex documents like a 500-page contracts.
+No,and framing keyword search as merely insuffcient undersells the problem.It would actively mislead lawyers into a false sense of completeness.
 
-A vector database addresses this liitation by enabling **semantic search** rather than simple keyword matching.In this approach,both the contract text i.e broken into smaller chunks and the user's query are converted into embeddings in which numerical representatioms capture meanings and context.Instead of matching words,the system compares these embeddings to find sections that are conceptually similar to the query.
+Consider a clause governing liability caps.A lawyer asking **"What limits the firm's financial exposure?"** finds nothing via keyword search ,because the contract may express the same obligation as the ***"aggregate damages recoverable shall not exceed the fees paid in the preceding  twelve months"** or **"neither party shall be liable for consequential losses howsoever arising"**.No shared keywords but identical legal significance.The system returns silence;the lawyer assumes the clause does not exist and advises the client accordingly .That is not an edge case, it is how contracts are routinely drafted ,sometimes deliberately ,to obscure unfavourable terms .
 
-This is especially useful in legal scenarios where precision and context matters a lot.A vector database can retrieve clauses that are relevant in meaning even if they do not share the exact keywords.It also allows ranking results by similarity,ensuring most relevant sections appear first.
+**Vector databases** resolve this by operating at the level of intent rather than a vocabulary .Every paragraph is chunked and encoded into an embedding vector that captures its semantic position in language space . A lawyer's plain-English query is encoded into the same space and the system retrieves paragraphs by cosine similarity i.e directional proximity not character overlap .A clause about **"aggregate liablity ceilings"** and a query about **"financial exposure limits"** land near each other even with zero shared words .
 
-In practice,the system would store embeddings of contract chunks in the vector database. When a lawyer asks a question,the query embedding is matched against stored vectors to retrieve the most relevant passages.This makes the search faster ,more accurate and fa more aligned with how humans interpret legal language.
+From a systems design standpoint,this architecture scales across an entire contract repository,supports iterative queries without re-scanning raw text,and can be composed with generative layer to synthesize direct answers,turning passive retrieval into an active legal reasoning tool.
+
+
+
